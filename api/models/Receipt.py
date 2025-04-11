@@ -1,6 +1,21 @@
 from .Item import Item
 
 class Receipt:
+    """An object containing all items and total pricing information
+    
+    Parameters
+    ----------
+    retailer: `str`
+        Store/Business where items were purchased from
+    purchase_date: `str`
+        Date of purchase of all items
+    purchase_time: `str`
+        Time of purchase of all items
+    items: `list[Item]`
+        List of Item objects
+    total: `str`
+        Total price of all purchased items
+    """
     def __init__(self):
         self._retailer: str = ""
         self._purchase_date: str = ""

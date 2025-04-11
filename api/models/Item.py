@@ -1,4 +1,13 @@
 class Item:
+    """An item in a Receipt object.
+    
+    Parameters
+    ----------
+    short_description: `str`
+        Item Description
+    price: `str`
+        Item Price
+    """
     def __init__(self, short_description: str="", price: str = ""):
         self._short_description: str = short_description
         self._price: str = price

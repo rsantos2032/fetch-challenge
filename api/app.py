@@ -3,9 +3,9 @@ from collections import defaultdict
 from werkzeug.exceptions import BadRequest
 import uuid
 import math
-from datetime import datetime, time
+from datetime import datetime
 
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
@@ -13,6 +13,20 @@ receipts_cache = defaultdict(Receipt)
 
 @app.route("/receipts/process", methods=["POST"])
 def process_receipts():
+    """Processes a receipt by creating a unique ID and saving it in-memory in a hash map.
+
+    Parameters
+    ----------
+    data: `JSON`
+        A JSON object containing receipt and item information
+        
+    Returns
+    -------
+    200: `JSON`
+        A JSON object containing the generating receipt ID
+    400: `JSON`
+        If JSON object was not properly formatted or if we are missing details in the object this error is thrown.
+    """
     try:
         data = request.get_json()
         id = str(uuid.uuid4())
@@ -31,6 +45,20 @@ def process_receipts():
     
 @app.route("/receipts/<id>/points", methods=["GET"])
 def get_points(id: str):
+    """Calculates the points for a receipt from a given receipt ID.
+    
+    Parameters
+    ----------
+    id: `str`
+        A receipt ID
+    
+    Returns
+    -------
+    200: `JSON`
+        A JSON object containing the calculated points
+    400: `JSON`
+        If the ID does not exist then this error is thrown.
+    """
     if id not in receipts_cache:
         return jsonify({"error": "No receipt found for that ID."})
     points = 0
